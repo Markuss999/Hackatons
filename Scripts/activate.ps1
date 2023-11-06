@@ -17,7 +17,7 @@ function global:deactivate([switch] $NonDestructive) {
     }
 
     if (!$NonDestructive) {
-        # Self destruct!
+       
         Remove-Item function:deactivate
         Remove-Item function:pydoc
     }
@@ -27,7 +27,7 @@ function global:pydoc {
     python -m pydoc $args
 }
 
-# unset irrelevant variables
+
 deactivate -nondestructive
 
 $VIRTUAL_ENV = $BASE_DIR
@@ -44,14 +44,14 @@ if (!$env:VIRTUAL_ENV_DISABLE_PROMPT) {
 
     if ("" -ne "") {
         function global:prompt {
-            # Add the custom prefix to the existing prompt
+           
             $previous_prompt_value = & $function:_old_virtual_prompt
             ("() " + $previous_prompt_value)
         }
     }
     else {
         function global:prompt {
-            # Add a prefix to the current prompt, but don't discard it.
+           
             $previous_prompt_value = & $function:_old_virtual_prompt
             $new_prompt_value = "($( Split-Path $env:VIRTUAL_ENV -Leaf )) "
             ($new_prompt_value + $previous_prompt_value)
