@@ -15,9 +15,9 @@ function _fishify_path -d "Converts a bash path to something fish can recognize"
 end
 
 function deactivate -d 'Exit virtualenv mode and return to the normal environment.'
-    # reset old environment variables
+    
     if test -n "$_OLD_VIRTUAL_PATH"
-        # https://github.com/fish-shell/fish-shell/issues/436 altered PATH handling
+        
         if test (echo $FISH_VERSION | head -c 1) -lt 3
             set -gx PATH (_fishify_path "$_OLD_VIRTUAL_PATH")
         else
@@ -36,7 +36,7 @@ function deactivate -d 'Exit virtualenv mode and return to the normal environmen
         # Set an empty local `$fish_function_path` to allow the removal of `fish_prompt` using `functions -e`.
         set -l fish_function_path
 
-        # Erase virtualenv's `fish_prompt` and restore the original.
+      
         functions -e fish_prompt
         functions -c _old_fish_prompt fish_prompt
         functions -e _old_fish_prompt
@@ -46,7 +46,7 @@ function deactivate -d 'Exit virtualenv mode and return to the normal environmen
     set -e VIRTUAL_ENV
 
     if test "$argv[1]" != 'nondestructive'
-        # Self-destruct!
+      
         functions -e pydoc
         functions -e deactivate
         functions -e _bashify_path
@@ -54,12 +54,12 @@ function deactivate -d 'Exit virtualenv mode and return to the normal environmen
     end
 end
 
-# Unset irrelevant variables.
+
 deactivate nondestructive
 
 set -gx VIRTUAL_ENV 'C:\Users\bigmonke420\Desktop\serveris\env'
 
-# https://github.com/fish-shell/fish-shell/issues/436 altered PATH handling
+
 if test (echo $FISH_VERSION | head -c 1) -lt 3
    set -gx _OLD_VIRTUAL_PATH (_bashify_path $PATH)
 else
@@ -67,7 +67,7 @@ else
 end
 set -gx PATH "$VIRTUAL_ENV"'/Scripts' $PATH
 
-# Unset `$PYTHONHOME` if set.
+
 if set -q PYTHONHOME
     set -gx _OLD_VIRTUAL_PYTHONHOME $PYTHONHOME
     set -e PYTHONHOME
@@ -78,15 +78,14 @@ function pydoc
 end
 
 if test -z "$VIRTUAL_ENV_DISABLE_PROMPT"
-    # Copy the current `fish_prompt` function as `_old_fish_prompt`.
+    
     functions -c fish_prompt _old_fish_prompt
 
     function fish_prompt
-        # Run the user's prompt first; it might depend on (pipe)status.
+        
         set -l prompt (_old_fish_prompt)
 
-        # Prompt override provided?
-        # If not, just prepend the environment name.
+       
         if test -n ''
             printf '(%s) ' ''
         else
