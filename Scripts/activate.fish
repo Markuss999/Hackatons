@@ -92,7 +92,7 @@ if test -z "$VIRTUAL_ENV_DISABLE_PROMPT"
             printf '(%s) ' (basename "$VIRTUAL_ENV")
         end
 
-        string join -- \n $prompt # handle multi-line prompts
+        string join -- \n $prompt 
     end
 
     set -gx _OLD_FISH_PROMPT_OVERRIDE "$VIRTUAL_ENV"
