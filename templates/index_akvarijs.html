@@ -1,0 +1,436 @@
+{% extends 'base.html' %} 
+{% include 'header_akvarijs.html' %} 
+
+
+
+{% block title %} Akvarijs {% endblock %} 
+
+
+
+{% block body %} 
+<style>
+    button {
+       background-color: black;
+       color: white;
+       padding: 10px 20px;
+       display: block;
+       margin: 10px auto;
+       border: none;
+       border-radius: 5px;
+       font-size: 16px;
+       font-weight: bold;
+       transition: all 0.2s ease-in-out;
+    }
+ 
+    button:hover {
+       transform: scale(1.1);
+    }
+ </style>
+ 
+<button onclick="window.location = 'http://localhost:5000/protected'" type="submit">Atgriezties Sakumlapa</button> 
+<button onclick="window.print()">Saglabat ka PDF</button>
+<div class="container">
+    <div class="row"> 
+        
+        <div class="col md-12"> 
+
+            <div class="jumbotron p-3"> 
+
+                <h2>Parvaldit <b>Akvarija Datus</b> <button type="button" class="btn btn-success float-right" 
+                data-toggle="modal" data-target="#mymodal3">Pievienot Akvarija Datus</button></h2>
+                
+                {% with messages = get_flashed_messages() %} 
+
+                {% if messages %} 
+                
+                {% for message in messages %} 
+
+                <div class="alert alert-success alert-dismissable" role="alert">
+
+                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                        
+                        <span aria-hidden="true">x</span>
+                    
+                    </button>
+                
+                {{message}} 
+                
+                </div>
+
+              
+
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                <table class="table table-hover table-dark">
+                    <tr>
+                        <th colspan="2"> <!-- Merged cells for ID -->
+                            ID
+                        </th>
+                        <th>
+                            Datums
+                        </th>
+                        <th>
+                            Tilpums l
+                        </th>
+                        <th>
+                            Temperatura °C
+                        </th>
+                        <th>
+                            pH Limenis
+                        </th>
+                        <th>
+                            Gaismas Limenis W
+                        </th>
+                        <th>
+                            Dulkainuma limenis ppm
+                        </th>
+                        <th>
+                            Barosanas ID
+                        </th>
+                        <th>
+                            Zivs ID
+                        </th>
+                        <th>
+                            Darbiba
+                        </th>
+                    </tr>
+
+                    {% for row in udens %} 
+                    <tr>
+                        <td colspan="2"> <!-- Merged cells for ID -->
+                            {{row.id}} 
+                        </td>
+                        <td>
+                            {{row.datums}}
+                        </td>
+                        <td>
+                            {{row.tilpums_l}}
+                        </td>
+                        <td>
+                            {{row.temperatura_celsija_grados}}
+                        </td>
+                        <td>
+                            {{row.pH_limenis}}
+                        </td>
+                        <td>
+                            {{row.gaismas_limenis_W}}
+                        </td>
+                        <td>
+                            {{row.dulkainuma_limenis_ppm}}
+                        </td>
+                        <td>
+                            {{row.barosanas_id}}
+                        </td>
+                        <td>
+                            {{row.zivs_id}}
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <a href="/update1/{{row.id}}" class="btn btn-primary" data-toggle="modal" data-target="#modaledit3{{row.id}}">Rediget</a>
+                                <a href="/delete1/{{row.id}}" class="btn btn-danger" onclick="return confirm('Esat Parliecinats?')">Dzest</a>
+                            </div>
+                        </td> 
+
+                    </tr> 
+                    <!-- Modal Rediget akvarija datus--> 
+ 
+ 
+<div id="modaledit3{{row.id}}" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+       <div class="modal-content">
+          <div class="modal-header">
+  
+             <h4 class="modal-title">Rediget Informaciju</h4> 
+          </div>
+          <div class="modal-body">
+  
+             <form action="{{url_for('update1')}}" method="POST">
+  
+  
+                <div class="form-group">
+  
+                    <label>Datums:</label>
+                    <input type="hidden"  name="id" value="{{row.id}}">
+  
+                   <input type="text" class="form-control" name="datums" value="{{row.datums}}"> 
+  
+  
+                </div>
+  
+  
+                 <div class="form-group"> 
+  
+  
+                   <label>Tilpums l:</label>
+                   <input type="number" class="form-control" name="tilpums_l" value="{{row.tilpums_l}}">
+  
+  
+                </div>
+  
+  
+                 <div class="form-group">
+  
+  
+                   <label>Temperatura °C:</label>
+ 
+ 
+ 
+                   <input type="number" class="form-control" name="temperatura_celsija_grados" value="{{row.temperatura_celsija_grados}}"> 
+  
+  
+                </div>
+ 
+                <div class="form-group">
+  
+  
+                   <label>pH Limenis:</label> 
+ 
+ 
+ 
+                   <input type="number" class="form-control" name="pH_limenis" value="{{row.pH_limenis}}"> 
+  
+  
+                </div>
+                
+                <div class="form-group">
+  
+  
+                    <label> Gaismas Limenis W:</label> 
+  
+  
+  
+                    <input type="number" class="form-control" name="gaismas_limenis_W" value="{{row.gaismas_limenis_W}}"> 
+   
+   
+                 </div> 
+
+                 <div class="form-group">
+  
+  
+                    <label>Dulkainuma limenis ppm:</label> 
+  
+  
+  
+                    <input type="number" class="form-control" name="dulkainuma_limenis_ppm" value="{{row.dulkainuma_limenis_ppm}}"> 
+   
+   
+                 </div>
+                 
+                 <div class="form-group">
+  
+  
+                    <label>Barosanas ID:</label> 
+  
+  
+  
+                    <input type="number" class="form-control" name="barosanas_id" value="{{row.barosanas_id}}"> 
+   
+   
+                 </div>
+   
+                 
+                 <div class="form-group">
+  
+  
+                    <label>Zivs ID:</label> 
+  
+  
+  
+                    <input type="number" class="form-control" name="zivs_id" value="{{row.zivs_id}}"> 
+   
+   
+                 </div>
+   
+  
+  
+  
+                <div class="form-group">
+  
+  
+                   <button class="btn btn-primary" type="submit">Apstiprinat Izmainas</button> 
+  
+  
+                </div>
+  
+  
+             </form>
+  
+  
+          </div>
+  
+  
+          <div class="modal-footer">
+  
+  
+             <button type="button" class="btn btn-secondary" data-dismiss="modal">Aizvert</button>
+  
+  
+          </div>
+  
+  
+       </div>
+  
+  
+    </div>
+  
+  
+ </div>
+
+                    {% endfor %}
+
+                </table>
+                
+            </div>
+
+                     <!-- Modal Pievienot akvarija datus--> 
+ 
+ 
+<div id="mymodal3" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+       <div class="modal-content">
+          <div class="modal-header">
+  
+             <h4 class="modal-title">Datu Pievienosana</h4>
+          </div>
+          <div class="modal-body">
+  
+             <form action="{{url_for('insert2')}}" method="POST">
+  
+  
+                <div class="form-group">
+  
+                   <label>Datums:</label>
+                   <input type="date" class="form-control" name="datums" required="1"> 
+  
+  
+                </div>
+  
+  
+                 <div class="form-group"> 
+  
+  
+                   <label>Tilpums l:</label>
+                   <input type="number" class="form-control" name="tilpums_l" required="1">
+  
+  
+                </div>
+  
+  
+                 <div class="form-group">
+  
+  
+                   <label>Temperatura °C:</label>
+ 
+ 
+ 
+                   <input type="number" class="form-control" name="temperatura_celsija_grados" required="1">
+  
+  
+                </div>
+ 
+                <div class="form-group">
+  
+  
+                   <label>pH Limenis:</label> 
+ 
+ 
+ 
+                   <input type="number" class="form-control" name="pH_limenis" required="1"> 
+  
+  
+                </div>
+                
+                <div class="form-group">
+  
+  
+                    <label> Gaismas Limenis W:</label> 
+  
+  
+  
+                    <input type="number" class="form-control" name="gaismas_limenis_W" required="1"> 
+   
+   
+                 </div> 
+
+                 <div class="form-group">
+  
+  
+                    <label>Dulkainuma limenis ppm:</label> 
+  
+  
+  
+                    <input type="number" class="form-control" name="dulkainuma_limenis_ppm" required="1"> 
+   
+   
+                 </div>
+                 
+                 <div class="form-group">
+  
+  
+                    <label>Barosanas ID:</label> 
+  
+  
+  
+                    <input type="number" class="form-control" name="barosanas_id" required="1"> 
+   
+   
+                 </div>
+   
+                 
+                 <div class="form-group">
+  
+  
+                    <label>Zivs ID:</label> 
+  
+  
+  
+                    <input type="number" class="form-control" name="zivs_id" required="1"> 
+   
+   
+                 </div>
+   
+  
+  
+  
+                <div class="form-group">
+  
+  
+                   <button class="btn btn-primary" type="submit">Pievienot Datus</button> 
+  
+  
+                </div>
+  
+  
+             </form>
+  
+  
+          </div>
+  
+  
+          <div class="modal-footer">
+  
+  
+             <button type="button" class="btn btn-secondary" data-dismiss="modal">Aizvert</button>
+  
+  
+          </div>
+  
+  
+       </div>
+  
+  
+    </div>
+  
+  
+ </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

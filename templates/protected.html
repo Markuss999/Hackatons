@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sakumlapa</title>
+    <style>
+        body {
+          background-color: rgb(75, 170, 228); 
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+        }
+  
+        h1 {
+          color: white;
+          text-align: center;
+          margin-top: 50px;
+        }
+  
+        button {
+          background-color: black;
+          color: white;
+          padding: 10px 20px;
+          display: block;
+          margin: 20px auto;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          font-weight: bold;
+          transition: all 0.2s ease-in-out;
+        }
+  
+        button:hover {
+          transform: scale(1.1);
+        }
+      </style>
+
+</head>
+<body>
+    
+    <h1>Sakumlapa</h1> 
+    <button onclick="window.location = 'http://localhost:5000/zivs'" type="submit">Zivju dati</button>
+    <button onclick="window.location = 'http://localhost:5000/akvarijs'" type="submit">Akvariju dati</button>
+    <button onclick="window.location = 'http://localhost:5000/barosana'" type="submit">Barošanas dati</button>
+    <button onclick="window.location = 'http://localhost:5000/dropsession'" type="submit">Izrakstities</button>
+    
+</body>
+</html>
+

@@ -1,0 +1,307 @@
+{% extends 'base.html' %} 
+{% include 'header.html' %} 
+
+
+
+{% block title %} Zivs {% endblock %} 
+
+
+
+{% block body %} 
+<style>
+   button {
+      background-color: black;
+      color: white;
+      padding: 10px 20px;
+      display: block;
+      margin: 10px auto;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.2s ease-in-out;
+   }
+
+   button:hover {
+      transform: scale(1.1);
+   }
+</style>
+
+<button style="background-color: black; color: white;" onclick="window.location = 'http://localhost:5000/protected'" type="submit">Atgriezties Sakumlapa</button> 
+<button style="background-color: black; color: white;" onclick="window.print()">Saglabat ka PDF</button>
+
+<div class="container">
+   <div class="row"> 
+      <div class="col md-12"> 
+         
+         <div class="jumbotron p-3"> 
+
+            <h2>Parvaldit <b>Zivs Datus</b> <button type="button"  class="btn btn-success float-right"
+            data-toggle="modal" data-target="#mymodal">Pievienot Zivs Datus</button></h2>
+            
+            {% with messages = get_flashed_messages() %} 
+
+            {% if messages %} 
+
+            {% for message in messages %} 
+
+            <div class="alert alert-success alert-dismissable" role="alert">
+
+               <button type="button" class="close" data-dismiss="alert" aria-label="close">
+
+                  <span aria-hidden="true">x</span>
+
+               </button>
+               
+            {{message}} 
+            
+            </div>
+
+            
+
+            {% endfor %}
+
+            {% endif %}
+            {% endwith %}
+
+            <table class="table table-hover table-dark">
+
+               <tr>
+                  <th>ID</th>
+                  <th>Vards</th>
+                  <th>Vecums</th>
+                  <th>Suga</th> 
+                  <th>Bariba</th>
+                  <th>Darbiba</th>  
+               </tr>
+
+
+               {% for row in zivis %}
+               <tr> 
+                  <td>{{row.id}}</td>
+                  <td>{{row.vards}}</td> 
+                  <td>{{row.vecums}}</td> 
+                  <td>{{row.suga}}</td>
+                  <td>{{row.bariba}}</td> 
+
+                  <td>
+                     <a href="/update/{{row.id}}" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modaledit{{row.id}}">Rediget</a>
+                     <a href="/delete/{{row.id}}" class="btn btn-danger" onclick="return confirm('Esat Parliecinats?')">Dzest</a>
+
+                  </td>
+
+               </tr>
+              <!-- Modal Rediget Datus-->
+<div id="modaledit{{row.id}}" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+ 
+ 
+      <div class="modal-content">
+ 
+ 
+         <div class="modal-header">
+ 
+ 
+            <h4 class="modal-title">Rediget Informaciju</h4>
+ 
+ 
+         </div>
+ 
+ 
+         <div class="modal-body">
+ 
+ 
+            <form action="{{url_for('update')}}" method="POST">
+ 
+ 
+               <div class="form-group">
+
+ 
+ 
+                  <label>Vards:</label>
+                   <input type="hidden"  name="id" value="{{row.id}}"> 
+ 
+                  <input type="text" class="form-control" name="vards" value="{{row.vards}}">
+ 
+ 
+               </div>
+ 
+ 
+ 
+               <div class="form-group">
+ 
+ 
+                  <label>Vecums:</label>
+ 
+                  <input type="text" class="form-control" name="vecums" value="{{row.vecums}}">
+ 
+ 
+               </div>
+ 
+ 
+               <div class="form-group">
+ 
+ 
+                  <label>Suga:</label> 
+ 
+                  <input type="text" class="form-control" name="suga" value="{{row.suga}}">
+ 
+ 
+               </div> 
+               
+               <div class="form-group">
+ 
+ 
+                  <label>Bariba:</label> 
+ 
+                  <input type="text" class="form-control" name="bariba" value="{{row.bariba}}"> 
+ 
+ 
+               </div>
+ 
+ 
+               <div class="form-group">
+ 
+ 
+                  <button class="btn btn-primary" type="submit">Apstiprinat Izmaiņas</button> 
+ 
+ 
+               </div>
+ 
+ 
+            </form>
+ 
+ 
+         </div>
+ 
+ 
+         <div class="modal-footer">
+ 
+ 
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Aizvert</button>
+ 
+ 
+         </div>
+ 
+ 
+      </div>
+ 
+ 
+   </div>
+ 
+</div>
+ 
+               {% endfor %}
+
+            </table>
+
+
+
+         </div>
+
+
+         <!-- Modal Pievienot zivs datus--> 
+ 
+ 
+<div id="mymodal" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+ 
+            <h4 class="modal-title">Datu Pievienosana</h4>
+         </div>
+         <div class="modal-body">
+ 
+            <form action="{{url_for('insert')}}" method="POST">
+ 
+ 
+               <div class="form-group">
+ 
+                  <label>Vards:</label>
+                  <input type="text" class="form-control" name="vards" required="1"> 
+ 
+ 
+               </div>
+ 
+ 
+                <div class="form-group">
+ 
+ 
+                  <label>Vecums:</label>
+                  <input type="number" class="form-control" name="vecums" required="1">
+ 
+ 
+               </div>
+ 
+ 
+                <div class="form-group">
+ 
+ 
+                  <label>Suga:</label>
+
+
+
+                  <input type="text" class="form-control" name="suga" required="1">
+ 
+ 
+               </div>
+
+               <div class="form-group">
+ 
+ 
+                  <label>Bariba:</label> 
+
+
+
+                  <input type="text" class="form-control" name="bariba" required="1"> 
+ 
+ 
+               </div>
+ 
+ 
+ 
+               <div class="form-group">
+ 
+ 
+                  <button class="btn btn-primary" type="submit">Pievienot Datus</button> 
+ 
+ 
+               </div>
+ 
+ 
+            </form>
+ 
+ 
+         </div>
+ 
+ 
+         <div class="modal-footer">
+ 
+ 
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+ 
+ 
+         </div>
+ 
+ 
+      </div>
+ 
+ 
+   </div>
+ 
+ 
+</div>
+ 
+ 
+ 
+ 
+ 
+        </div>
+ 
+    </div>
+ 
+ 
+</div>
+ 
+ 
+{% endblock %}
