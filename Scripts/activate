@@ -10,7 +10,7 @@ fi
 deactivate () {
     unset -f pydoc >/dev/null 2>&1 || true
 
-    # reset old environment variables
+   
     # ! [ -z ${VAR+_} ] returns true if VAR is declared at all
     if ! [ -z "${_OLD_VIRTUAL_PATH:+_}" ] ; then
         PATH="$_OLD_VIRTUAL_PATH"
@@ -23,9 +23,7 @@ deactivate () {
         unset _OLD_VIRTUAL_PYTHONHOME
     fi
 
-    # The hash command must be called to get it to forget past
-    # commands. Without forgetting past commands the $PATH changes
-    # we made may not be respected
+    
     hash -r 2>/dev/null
 
     if ! [ -z "${_OLD_VIRTUAL_PS1+_}" ] ; then
@@ -41,7 +39,7 @@ deactivate () {
     fi
 }
 
-# unset irrelevant variables
+
 deactivate nondestructive
 
 VIRTUAL_ENV='C:\Users\bigmonke420\Desktop\serveris\env'
@@ -70,14 +68,12 @@ if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT-}" ] ; then
     export PS1
 fi
 
-# Make sure to unalias pydoc if it's already there
+
 alias pydoc 2>/dev/null >/dev/null && unalias pydoc || true
 
 pydoc () {
     python -m pydoc "$@"
 }
 
-# The hash command must be called to get it to forget past
-# commands. Without forgetting past commands the $PATH changes
-# we made may not be respected
+
 hash -r 2>/dev/null
